@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRAWL HUB — обновления и механики Brawl Stars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>⭐</text></svg>">
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="site-header">
+  <div class="logo" id="logoHome" title="На главную">
+    <span class="logo-star">★</span>
+    <span class="logo-text">BRAWL&nbsp;HUB</span>
+    <span class="logo-sub">обновления · механики</span>
+  </div>
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="home">🏠 Главная</button>
+    <button class="tab-btn" data-tab="settings">⚙️ Настройки</button>
+  </nav>
+</header>
+
+<!-- ══════════ ГЛАВНАЯ ══════════ -->
+<main id="tab-home" class="tab-page active">
+
+  <section class="hero">
+    <div class="hero-rays"></div>
+    <div class="hero-inner">
+      <h1 class="hero-title">ЧТО НОВОГО<br>В BRAWL STARS?</h1>
+      <p class="hero-sub">Все свежие обновления, новые бойцы и механики — в одном месте.
+      Нажми на карточку, чтобы глянуть кратко, или на номер версии — для полного разбора!</p>
+      <div class="hero-badges">
+        <span class="badge badge-yellow">🍜 Ramen Rebellion</span>
+        <span class="badge badge-purple">👥 100 бойцов</span>
+        <span class="badge badge-blue">🏆 Prestige</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title"><span>📦 ОБНОВЛЕНИЯ</span></h2>
+    <p class="section-hint">💡 Клик по строке — быстрый просмотр с картинкой. Клик по <b>номеру версии</b> — подробное описание.</p>
+    <div id="updatesList" class="updates-list"><!-- js --></div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title"><span>⚡ КЛЮЧЕВЫЕ МЕХАНИКИ</span></h2>
+    <div class="mech-grid" id="mechGrid"><!-- js --></div>
+  </section>
+
+  <footer class="site-footer">
+    Фан-сайт. Не аффилирован с Supercell. Brawl Stars — товарный знак Supercell Oy.
+  </footer>
+</main>
+
+<!-- ══════════ НАСТРОЙКИ ══════════ -->
+<main id="tab-settings" class="tab-page">
+  <section class="section">
+    <h2 class="section-title"><span>⚙️ НАСТРОЙКИ</span></h2>
+    <div class="settings-tabs">
+      <button class="stab-btn active" data-stab="general">Общие</button>
+      <button class="stab-btn" data-stab="ai">🤖 Нейросеть</button>
+    </div>
+
+    <!-- ── Общие ── -->
+    <div id="stab-general" class="stab-page active">
+      <div class="card">
+        <h3>Оформление сайта</h3>
+        <p class="muted">Нейросеть может менять оформление сайта по твоим командам в чате.
+        Если что-то пошло не так — верни всё как было:</p>
+        <button id="resetDesignBtn2" class="btn btn-red">↩️ Сбросить оформление к исходному</button>
+        <div class="ok-note" id="designResetNote" hidden>✅ Оформление сброшено!</div>
+      </div>
+      <div class="card">
+        <h3>Анимации</h3>
+        <label class="switch-row">
+          <input type="checkbox" id="animToggle" checked>
+          <span>Включить анимации и эффекты</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── Нейросеть ── -->
+    <div id="stab-ai" class="stab-page">
+      <div class="card">
+        <h3>🔌 Подключение нейросети</h3>
+        <p class="muted">Подключи любую нейросеть с OpenAI-совместимым API (OpenAI, OpenRouter, Groq, DeepSeek, локальные модели и т.д.). Ключ хранится только в твоём браузере (localStorage).</p>
+        <label class="field">
+          <span>Название подключения</span>
+          <input type="text" id="aiName" placeholder="Например: Мой GPT">
+        </label>
+        <label class="field">
+          <span>URL API (endpoint chat completions)</span>
+          <input type="text" id="aiUrl" placeholder="https://api.openai.com/v1/chat/completions">
+        </label>
+        <label class="field">
+          <span>API-ключ</span>
+          <input type="password" id="aiKey" placeholder="sk-...">
+        </label>
+        <label class="field">
+          <span>Модель</span>
+          <input type="text" id="aiModel" placeholder="gpt-4o-mini">
+        </label>
+      </div>
+
+      <div class="card">
+        <h3>📜 Инструкция для нейросети</h3>
+        <p class="muted">Нейросеть всегда будет следовать этой инструкции (системный промпт).</p>
+        <textarea id="aiInstruction" rows="5"></textarea>
+        <button id="restoreInstructionBtn" class="btn btn-ghost">Вернуть инструкцию по умолчанию</button>
+      </div>
+
+      <div class="card">
+        <div class="row-between">
+          <div>
+            <h3>🧹 История чата</h3>
+            <p class="muted">Сбросить историю — нейросеть всё «забудет».</p>
+          </div>
+          <button id="resetChatBtn" class="btn btn-red">🗑 Сбросить историю</button>
+        </div>
+        <div class="ok-note" id="chatResetNote" hidden>✅ История чата очищена — нейросеть всё забыла!</div>
+      </div>
+
+      <button id="saveAiBtn" class="btn btn-yellow btn-big">💾 Сохранить настройки</button>
+      <div class="ok-note" id="aiSavedNote" hidden>✅ Настройки сохранены!</div>
+    </div>
+  </section>
+</main>
+
+<!-- ══════════ БЫСТРЫЙ ПРОСМОТР (модалка) ══════════ -->
+<div class="modal-backdrop" id="quickModal" hidden>
+  <div class="modal quick-modal">
+    <button class="modal-close" data-close="quickModal">✕</button>
+    <div class="quick-art" id="quickArt"></div>
+    <div class="quick-body">
+      <div class="quick-version" id="quickVersion"></div>
+      <h3 id="quickTitle"></h3>
+      <p id="quickShort"></p>
+      <button class="btn btn-yellow" id="quickMoreBtn">📖 Подробнее</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ПОДРОБНОЕ ОПИСАНИЕ (модалка) ══════════ -->
+<div class="modal-backdrop" id="detailModal" hidden>
+  <div class="modal detail-modal">
+    <button class="modal-close" data-close="detailModal">✕</button>
+    <div class="detail-art" id="detailArt"></div>
+    <div class="detail-body">
+      <div class="quick-version" id="detailVersion"></div>
+      <h2 id="detailTitle"></h2>
+      <div class="detail-date" id="detailDate"></div>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ЧАТ С НЕЙРОСЕТЬЮ ══════════ -->
+<button id="chatFab" class="chat-fab" title="Чат с нейросетью">🤖<span class="chat-fab-label">Нейро-чат</span></button>
+
+<div class="chat-panel" id="chatPanel" hidden>
+  <div class="chat-header">
+    <span class="chat-title">🤖 <span id="chatAiName">Нейро-ассистент</span></span>
+    <div class="chat-header-btns">
+      <button id="resetDesignBtn" class="chip-btn" title="Вернуть исходное оформление сайта">↩️ Сброс оформления</button>
+      <button id="chatClearBtn" class="chip-btn" title="Сбросить историю чата">🗑</button>
+      <button id="chatCloseBtn" class="chip-btn" title="Закрыть">✕</button>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <form class="chat-input-row" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Напиши сообщение или команду…" autocomplete="off">
+    <button type="submit" class="btn btn-yellow chat-send">➤</button>
+  </form>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/ai.js"></script>
+</body>
+</html>
